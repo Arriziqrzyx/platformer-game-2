@@ -50,7 +50,7 @@ public class Gerak : MonoBehaviour
         }
         else
         {
-            anim.SetBool("", false);
+            anim.SetBool("Jump", false);
         }
 
         tanah = Physics2D.OverlapCircle(deteksitanah.position, jangkauan, targetlayer);
