@@ -16,6 +16,7 @@ public class Gerak : MonoBehaviour
     public float jangkauan;
     public int heart;
     public int coin;
+    public GameObject lose;
     Vector2 play; //variabel vector untuk posisi start
     public bool play_again;
     Text info_heart; // Variabel Heart
@@ -29,7 +30,7 @@ public class Gerak : MonoBehaviour
         play=transform.position; //start sebagai object transform posisi
         lompat = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
-        // info_heart = GameObject.Find("UI_Heart").GetComponent<Text>(); // Pendefinisian UI Heart sebagai componen Text
+        info_heart = GameObject.Find("UI_Heart").GetComponent<Text>(); // Pendefinisian UI Heart sebagai componen Text
         // info_Coin = GameObject.Find("UI_Coin").GetComponent<Text>();
     }
 
@@ -54,27 +55,41 @@ public class Gerak : MonoBehaviour
         }
 
         tanah = Physics2D.OverlapCircle(deteksitanah.position, jangkauan, targetlayer);
-        // info_heart.text = "Nyawa : " + heart.ToString(); //Heart yaitu Variabel di Atribut Player
+        info_heart.text = "Nyawa : " + heart.ToString(); //Heart yaitu Variabel di Atribut Player
         // info_Coin.text = "Promogem : " + coin.ToString();
 
         if (Input.GetKey (KeyCode.D))
         {
             transform.Translate(Vector2.right * kecepatan * Time.deltaTime);
             pindah = -1;
-            anim.SetBool("Run", true);
+            if (tanah == true)
+            {
+                anim.SetBool("Run", true);
+            }
+            else
+            {
+                anim.SetBool("Run", false);
+            }
         }
         else if (Input.GetKey (KeyCode.A))
         {
             transform.Translate(Vector2.left * kecepatan * Time.deltaTime);
             pindah = 1;
-            anim.SetBool("Run", true);
+            if (tanah == true)
+            {
+                anim.SetBool("Run", true);
+            }
+            else
+            {
+                anim.SetBool("Run", false);
+            }    
         }
         else
         {
             anim.SetBool("Run", false);
         }
 
-        if (tanah==true && Input.GetKey(KeyCode.Space))
+        if (tanah==true && Input.GetKeyDown(KeyCode.Space))
         {
             float x = lompat.velocity.x;
             lompat.velocity = new Vector2(x, kekuatanlompat);
@@ -90,11 +105,9 @@ public class Gerak : MonoBehaviour
         }
         if (heart < 0)
         {
-            Destroy(gameObject);
+            gameObject.SetActive(false);
+            lose.SetActive(true);
         }
-        
-
-
 
     }
 
