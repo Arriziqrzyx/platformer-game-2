@@ -21,9 +21,7 @@ public class Gerak : MonoBehaviour
     public bool play_again;
     Text info_heart; // Variabel Heart
     Text info_Coin; // Variabel untuk Koin
-    // Start is called before the first frame update
     
-
     Animator anim; 
     void Start()
     {
@@ -103,10 +101,11 @@ public class Gerak : MonoBehaviour
         {
             flip();
         }
-        if (heart < 0)
+        if (heart < 1)
         {
             gameObject.SetActive(false);
             lose.SetActive(true);
+            Debug.Log("Player Mokad");
         }
 
     }
